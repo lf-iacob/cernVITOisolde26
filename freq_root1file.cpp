@@ -9,7 +9,7 @@ namespace fs = filesystem;
 void freq_rootfile(string filecsv, TString output="output.root"){
 
   // ---------- csv FILE INFO
-  /* eg filename: t03_s1_150_3_sr90.csv
+  /* e.g. filename: t03_s1_150_3_sr90.csv
      t: numbero of the test
      s: scintillator configuration
      150: trigger level (threshold)
@@ -28,11 +28,16 @@ void freq_rootfile(string filecsv, TString output="output.root"){
       <<"Test number: "<<t<<endl
       <<"Type of radioactive source: "<<rads<<endl
       <<"Scintillators configuration: "<<s<<endl
-      <<"Trigger level: "<<tl<<endl
-      <<"Time window acquisition: "<<tw<<endl;
+      <<"Trigger level (mV): "<<tl<<endl
+      <<"Time window acquisition (min): "<<tw<<endl;
+  int colour;
+  if(stoi(tl)==100) colour=kPink-8
+		      ;
+  else if(stoi(tl)==150) colour=kViolet-2;
+  else colour=kAzure+2;
 
   // ---------- ROOT file creation
-  if(output=="output.root") output = fs::path(filecsv).parent_path().string()+"/"+s+"_"+tl+"_"+tw+"_"+rads+".root";
+  if(output=="output.root") output=fs::path(filecsv).parent_path().string()+"/"+fs::path(filecsv).filename().string()+".root";
   TFile *froot = new TFile(output, "RECREATE");
 
   double freq;
@@ -55,13 +60,30 @@ void freq_rootfile(string filecsv, TString output="output.root"){
   int n=dd->GetEntries();
 
   // ---------- Frequency HIST
-  TH1F *fhist = new TH1F("fhist", "Frequency Histogram;Frequency (Hz);Entries",500,-10,150);
+  TCanvas *r = new TCanvas();
+  TH1F *fhist = new TH1F("fhist", "Frequency Histogram;Frequency (Hz);Entries",300,-10,160);
+  fhist->SetLineColor(colour); 
+  fhist->SetLineWidth(2);
+  fhist->SetFillStyle(3004);
+  fhist->SetFillColor(colour);
   for(int i=0; i<n; i++) {
     dd->GetEntry(i);
     fhist->Fill(freq);
   }
   fhist->Draw();
+  
+  double f=fhist->GetMean(), f_err=fhist->GetMeanError();
+ 
+  TLegend *leg = new TLegend(0.49, 0.75, 0.88, 0.88);
+  leg->SetTextSize(0.03);
+  leg->AddEntry(fhist, Form("%s (%s) - tl = %s mV; tw = %s min", rads.c_str(), s.c_str(), tl.c_str(), tw.c_str()));
+  leg->AddEntry(fhist, Form("f_{%s(%s),%s} = %.2f #pm %.2f Hz", rads.c_str(), s.c_str(), tl.c_str(), f, f_err), "");
+  leg -> Draw();
+  r->Update();
 
+  froot->cd();
+  leg->Write();
+  fhist->Write();
   froot->Write();
 }
 
