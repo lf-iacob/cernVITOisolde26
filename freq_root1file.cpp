@@ -61,9 +61,9 @@ void freq_rootfile(string filecsv, TString output="output.root"){
 
   // ---------- Frequency HIST
   TCanvas *r = new TCanvas();
-  TH1F *fhist = new TH1F("fhist", "Frequency Histogram;Frequency (Hz);Entries",300,-10,160);
+  TH1F *fhist = new TH1F("fhist", "Frequency Histogram;Frequency (Hz);Entries",150,-10,160);
   fhist->SetLineColor(colour); 
-  fhist->SetLineWidth(2);
+  fhist->SetLineWidth(3);
   fhist->SetFillStyle(3004);
   fhist->SetFillColor(colour);
   for(int i=0; i<n; i++) {
