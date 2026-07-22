@@ -46,7 +46,7 @@ void freq_singleTL(string file1, string file2, string file3, string file4, strin
 
   // ---------- Frequency HIST (total)
   TCanvas *r = new TCanvas();
-  TH1F *fhist_t = new TH1F("fhist_t", "Frequqncy Histogram;Frequency (Hz);Entries",150,-10,160);
+  TH1F *fhist_t = new TH1F("fhist_t", "Frequency Histogram;Frequency (Hz);Entries",150,-10,160);
   fhist_t->SetLineColor(colour); 
   fhist_t->SetLineWidth(3);
   fhist_t->SetFillStyle(3004);
