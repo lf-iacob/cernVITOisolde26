@@ -37,7 +37,7 @@ void freq_rootfile(string filecsv, TString output="output.root"){
   else colour=kAzure+2;
 
   // ---------- ROOT file creation
-  if(output=="output.root") output=fs::path(filecsv).parent_path().string()+"/"+fs::path(filecsv).filename().string()+".root";
+  if(output=="output.root") output=fs::path(filecsv).parent_path().string()+"/"+fs::path(filecsv).stem().string()+".root";
   TFile *froot = new TFile(output, "RECREATE");
 
   double freq;
