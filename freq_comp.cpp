@@ -52,7 +52,7 @@ void freq_comp(const vector<string> &files, TString output = "comparison/output.
     h[i] = (TH1F*)fl[i]->Get("fhist");
     Color_t col=(i<colours.size())?colours[i]:(kBlack + i);
     h[i]->SetLineColor(col);
-    h[i]->SetLineWidth(2);
+    h[i]->SetLineWidth(3);
     h[i]->SetFillStyle(3004);
     h[i]->SetFillColor(col);
     if (!firstDrawn) {
