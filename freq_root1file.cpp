@@ -31,8 +31,7 @@ void freq_rootfile(string filecsv, TString output="output.root"){
       <<"Trigger level (mV): "<<tl<<endl
       <<"Time window acquisition (min): "<<tw<<endl;
   int colour;
-  if(stoi(tl)==100) colour=kPink-8
-		      ;
+  if(stoi(tl)==100) colour=kPink-8;
   else if(stoi(tl)==150) colour=kViolet-2;
   else colour=kAzure+2;
 
