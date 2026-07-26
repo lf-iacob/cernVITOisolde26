@@ -75,9 +75,9 @@ void spectrum_root(string file0, TString output="output.root"){
   
   double c_mean=hc->GetMean(), c_err=hc->GetMeanError(), c_std=hc->GetStdDev();
 
-  TLegend *leg_c = new TLegend(0.45, 0.7, 0.88, 0.88);
+  TLegend *leg_c = new TLegend(0.43, 0.7, 0.88, 0.88);
   leg_c->SetTextSize(0.03);
-  leg_c->AddEntry(hc, Form("%s - Trigger Level = %s mV", rads.c_str(), tl.c_str()));
+  leg_c->AddEntry(hc, Form("%s - %s - Trigger Level = %s mV", s.c_str(), rads.c_str(), tl.c_str()));
   leg_c->AddEntry(hc, Form("#splitline{Charge_{%s,%s} = %.4f #pm %.4f pC}{(#sigma = %.2f pC)}",
 			   rads.c_str(), tl.c_str(), c_mean, c_err, c_std), "");
   leg_c->Draw();
@@ -98,9 +98,9 @@ void spectrum_root(string file0, TString output="output.root"){
   
   double amp_mean=hamp->GetMean(), amp_err=hamp->GetMeanError(), amp_std=hamp->GetStdDev();
   
-  TLegend *leg_amp = new TLegend(0.45, 0.7, 0.88, 0.88);
+  TLegend *leg_amp = new TLegend(0.43, 0.7, 0.88, 0.88);
   leg_amp->SetTextSize(0.03);
-  leg_amp->AddEntry(hamp, Form("%s - Trigger Level = %s mV", rads.c_str(), tl.c_str()));
+  leg_amp->AddEntry(hamp, Form("%s - %s - Trigger Level = %s mV", s.c_str(), rads.c_str(), tl.c_str()));
   leg_amp->AddEntry(hamp, Form("#splitline{Amplitude_{%s,%s} = %.4f #pm %.4f ADC}{(#sigma = %.2f ADC)}",
 			       rads.c_str(), tl.c_str(), amp_mean, amp_err, amp_std), "");
   leg_amp->Draw();
