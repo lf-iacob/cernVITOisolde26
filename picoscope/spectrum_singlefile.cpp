@@ -60,7 +60,8 @@ void e_spectrum(string file0, TString output="output.root"){
  
   int n = dd->GetEntries();
 
-  //---- Charge THistogram
+  // ---------- Charge Histogram ----------
+  TCanvas *cc = new TCanvas;
   TH1F *hc = new TH1F("hc", "Charge Histogram;Charge (pC);Entries",200,0.02,0.5);
   hc->SetLineColor(kRed-3); 
   hc->SetLineWidth(3);
@@ -70,8 +71,20 @@ void e_spectrum(string file0, TString output="output.root"){
     dd->GetEntry(i);
     hc->Fill(c);
   }
+  hc->Draw();
   
-  //---- Amplitude THistogram
+  double c_mean=hc->GetMean(), c_err=hc->GetMeanError(), c_std=hc->GetStdDev();
+
+  TLegend *leg_c = new TLegend(0.45, 0.7, 0.88, 0.88);
+  leg_c->SetTextSize(0.03);
+  leg_c->AddEntry(hc, Form("%s - Trigger Level = %s mV", rads.c_str(), tl.c_str()));
+  leg_c->AddEntry(hc, Form("#splitline{Charge_{%s,%s} = %.4f #pm %.4f Hz}{(#sigma = %.2f Hz)}",
+			   rads.c_str(), tl.c_str(), c_mean, c_err, c_std), "");
+  leg_c->Draw();
+  cc->Update();
+  
+  // ---------- Amplitude Histogram ----------
+  TCanvas *ca = new TCanvas;
   TH1F *hamp = new TH1F("hamp", "Amplitude Histogram;Amplitude (ADC);Entries",200,0.05,0.6);
   hamp->SetLineColor(kAzure+2); 
   hamp->SetLineWidth(3);
@@ -81,13 +94,19 @@ void e_spectrum(string file0, TString output="output.root"){
     dd->GetEntry(i);
     hamp->Fill(amp);
   }
+  hamp->Draw();
   
-  TLegend *leg = new TLegend(0.25, 0.75, 0.88, 0.88);
-  //.leg->SetTextSize(0.03);
-  leg->AddEntry(fhist, Form("%s (%s) - tl = %s mV; tw = %s min, gate = %s ms", rads.c_str(), s.c_str(), tl.c_str(), tw.c_str(), g.c_str()));
-  leg->AddEntry(fhist, Form("f_{%s(%s),%s} = %.2f #pm %.2f Hz", rads.c_str(), s.c_str(), tl.c_str(), f, f_err), "");
-  leg -> Draw();
-  r->Update();
+  double amp_mean=hamp->GetMean(), amp_err=hamp->GetMeanError(), amp_std=hamp->GetStdDev();
+  
+  TLegend *leg_amp = new TLegend(0.45, 0.7, 0.88, 0.88);
+  leg_amp->SetTextSize(0.03);
+  leg_amp->AddEntry(hamp, Form("%s - Trigger Level = %s mV", rads.c_str(), tl.c_str()));
+  leg_amp->AddEntry(hamp, Form("#splitline{Amplitude_{%s,%s} = %.4f #pm %.4f Hz}{(#sigma = %.2f Hz)}",
+			       rads.c_str(), tl.c_str(), amp_mean, amp_err, amp_std), "");
+  leg_amp->Draw();
+  ca->Update();
+  
+  
 
   froot->Write();
 }
