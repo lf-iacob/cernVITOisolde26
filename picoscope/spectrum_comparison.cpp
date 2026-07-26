@@ -72,7 +72,7 @@ void spectrum_comp(const vector<string> &files, TString output = "comparison/out
     c_err = hc[i]->GetMeanError();
     c_std = hc[i]->GetStdDev();
     legc->AddEntry(hc[i], Form("%s - Trigger Level = %s mV", rads[i].c_str(), tl[i].c_str()));
-    legc->AddEntry(hc[i], Form("#splitline{Charge_{%s,%s} = %.4f #pm %.4f Hz}{(#sigma = %.2f Hz)}",
+    legc->AddEntry(hc[i], Form("#splitline{Charge_{%s,%s} = %.4f #pm %.4f pC}{(#sigma = %.2f pC)}",
 			       rads[i].c_str(), tl[i].c_str(), c_mean, c_err, c_std), "");
   }
   legc->Draw();
@@ -105,7 +105,7 @@ void spectrum_comp(const vector<string> &files, TString output = "comparison/out
     amp_err = hc[i]->GetMeanError();
     amp_std = hc[i]->GetStdDev();
     lega->AddEntry(hamp[i], Form("%s - Trigger Level = %s mV", rads[i].c_str(), tl[i].c_str()));
-    lega->AddEntry(hamp[i], Form("#splitline{Amplitude_{%s,%s} = %.4f #pm %.4f Hz}{(#sigma = %.2f Hz)}",
+    lega->AddEntry(hamp[i], Form("#splitline{Amplitude_{%s,%s} = %.4f #pm %.4f ADC}{(#sigma = %.2f ADC)}",
 				 rads[i].c_str(), tl[i].c_str(), amp_mean, amp_err, amp_std), "");
   }
   lega->Draw();
@@ -113,5 +113,8 @@ void spectrum_comp(const vector<string> &files, TString output = "comparison/out
 
   
   cout << "Comparison shown in the plots." << endl << endl;
+  froot->cd();
+  aaa->Write();
+  ccc->Write();
   froot->Write();
 }
