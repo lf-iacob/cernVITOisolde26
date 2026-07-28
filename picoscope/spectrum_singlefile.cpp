@@ -52,7 +52,7 @@ void spectrum_root(string file0, TString output="output.root"){
       file>>a[i]; 
       if(i>=50 && i<=129) b+=double(a[i])/(129-50);
       if((a[i]-b)>amp) amp = a[i]-b;
-      else if(i>=12 && i<=40) c+=(a[i]-b)*(1000/stod(sr))/50.; //LSB? Dynamic range of ADC? For volts conversion from ADC
+      else if(i>=12 && i<=40) c+=(a[i]-b)*(2000./4096)*(1000/stod(sr))/50.; //Dynamic Range: \pm1V, LSB: 12bit
     }
     dd->Fill();
   }
@@ -62,7 +62,7 @@ void spectrum_root(string file0, TString output="output.root"){
 
   // ---------- Charge Histogram ----------
   TCanvas *cc = new TCanvas;
-  TH1F *hc = new TH1F("hc", "Charge Histogram;Charge (pC);Entries",200,0.02,0.5);
+  TH1F *hc = new TH1F("hc", "Charge Histogram;Charge (pC);Entries",200,0.,0.3);
   hc->SetLineColor(kRed-3); 
   hc->SetLineWidth(3);
   hc->SetFillStyle(3004);
@@ -85,7 +85,7 @@ void spectrum_root(string file0, TString output="output.root"){
   
   // ---------- Amplitude Histogram ----------
   TCanvas *ca = new TCanvas;
-  TH1F *hamp = new TH1F("hamp", "Amplitude Histogram;Amplitude (ADC);Entries",200,0.05,0.6);
+  TH1F *hamp = new TH1F("hamp", "Amplitude Histogram;Amplitude (ADC);Entries",200,0.,0.6);
   hamp->SetLineColor(kAzure+2); 
   hamp->SetLineWidth(3);
   hamp->SetFillStyle(3004);
