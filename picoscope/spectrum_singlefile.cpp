@@ -6,7 +6,7 @@ using namespace std;
 namespace fs = filesystem;
 const int L=129;  //wf time window
 
-void spectrum_root(string file0, TString output="output.root"){
+void spectrum_root(string file0, int dyn_range=1, TString output="output.root"){
   
   // ---------- (h5->)txt Filename ----------
   /* e.g. s1_100_10k_125_Sr90.txt
@@ -52,7 +52,7 @@ void spectrum_root(string file0, TString output="output.root"){
       file>>a[i]; 
       if(i>=50 && i<=129) b+=double(a[i])/(129-50);
       if((a[i]-b)>amp) amp = a[i]-b;
-      else if(i>=12 && i<=40) c+=(a[i]-b)*(2000./4096)*(1000/stod(sr))/50.; //Dynamic Range: \pm1V, LSB: 12bit
+      else if(i>=12 && i<=40) c+=(a[i]-b)*((2*1000.*dyn_range)/4096)*(1000/stod(sr))/50.; //Dynamic Range: *V, LSB: 12bit
     }
     dd->Fill();
   }
@@ -110,3 +110,4 @@ void spectrum_root(string file0, TString output="output.root"){
 
   froot->Write();
 }
+
