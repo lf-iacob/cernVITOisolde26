@@ -6,7 +6,7 @@ using namespace std;
 namespace fs = filesystem;
 const int L=129;  //wf time window
 
-void spectrum_root(string file0, int dyn_range=1, TString output="output.root"){
+void spectrum_root(string file0, double dyn_range=1., TString output="output.root"){
   
   // ---------- (h5->)txt Filename ----------
   /* e.g. s1_100_10k_125_Sr90.txt
@@ -85,8 +85,7 @@ void spectrum_root(string file0, int dyn_range=1, TString output="output.root"){
   
   // ---------- Amplitude Histogram ----------
   TCanvas *ca = new TCanvas;
-  TH1F *hamp = new TH1F("hamp", "Amplitude Histogram;Amplitude (ADC);Entries",400,0.,1.2
-			);
+  TH1F *hamp = new TH1F("hamp", "Amplitude Histogram;Amplitude (ADC);Entries",400,0.,1.2);
   hamp->SetLineColor(kAzure+2); 
   hamp->SetLineWidth(3);
   hamp->SetFillStyle(3004);
@@ -106,8 +105,5 @@ void spectrum_root(string file0, int dyn_range=1, TString output="output.root"){
 			       rads.c_str(), tl.c_str(), amp_mean, amp_err, amp_std), "");
   leg_amp->Draw();
   ca->Update();
-  
-  
-
   froot->Write();
 }
