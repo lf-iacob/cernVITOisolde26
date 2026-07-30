@@ -62,7 +62,7 @@ void spectrum_root(string file0, int dyn_range=1, TString output="output.root"){
 
   // ---------- Charge Histogram ----------
   TCanvas *cc = new TCanvas;
-  TH1F *hc = new TH1F("hc", "Charge Histogram;Charge (pC);Entries",300,0.,0.5);
+  TH1F *hc = new TH1F("hc", "Charge Histogram;Charge (pC);Entries",400,0.,0.7);
   hc->SetLineColor(kRed-3); 
   hc->SetLineWidth(3);
   hc->SetFillStyle(3004);
