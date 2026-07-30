@@ -31,6 +31,7 @@ void spectrum_comp(const vector<string> &files, TString output = "comparison/out
   cout<<endl;
   vector<Color_t> colours={kPink-8, kViolet-3, kAzure+2, kTeal+3, kOrange-3, kSpring-5};
 
+  /*
   // ---------- new ROOT file ----------
   if (output=="comparison/output.root") {
     string s_comp="", tl_comp="", rad_comp="";
@@ -42,6 +43,8 @@ void spectrum_comp(const vector<string> &files, TString output = "comparison/out
     output = "comparison/"+s_comp+"_"+tl_comp+"_"+rad_comp+".root";
   }
   TFile *froot = new TFile(output, "RECREATE");
+  */
+
     
   // ---------- Charge Hist comparison ----------
   gStyle->SetOptStat(00000);
@@ -50,7 +53,7 @@ void spectrum_comp(const vector<string> &files, TString output = "comparison/out
   bool firstDrawn = false;
   vector<TFile*> fl(nFiles);
   vector<TH1F*> hc(nFiles);
-  for (int i=nFiles-1; i>=0; i--) {
+  for (int i=0; i<nFiles; i++) {
     fl[i] = TFile::Open(files[i].c_str(), "READ");
     hc[i] = (TH1F*)fl[i]->Get("hc");
     Color_t col=(i<colours.size())?colours[i]:(kBlack + i);
@@ -83,7 +86,7 @@ void spectrum_comp(const vector<string> &files, TString output = "comparison/out
   TCanvas *aaa = new TCanvas();
   firstDrawn = false;
   vector<TH1F*> hamp(nFiles);
-  for (int i=nFiles-1; i>=0; i--) {
+  for (int i=0; i<nFiles; i++) {
     fl[i] = TFile::Open(files[i].c_str(), "READ");
     hamp[i] = (TH1F*)fl[i]->Get("hamp");
     Color_t col=(i<colours.size())?colours[i]:(kBlack + i);
@@ -111,10 +114,8 @@ void spectrum_comp(const vector<string> &files, TString output = "comparison/out
   lega->Draw();
   aaa->Update();
 
-  
-  cout << "Comparison shown in the plots." << endl << endl;
-  froot->cd();
-  aaa->Write();
-  ccc->Write();
-  froot->Write();
+  //froot->cd();
+  //aaa->Write();
+  //ccc->Write();
+  //froot->Write();
 }
