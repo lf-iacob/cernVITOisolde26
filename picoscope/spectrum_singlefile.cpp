@@ -31,7 +31,7 @@ void spectrum_root(string file0, TString output="output.root"){
       <<"Scintillators configuration: "<<s<<endl
       <<"Trigger level (mV): "<<tl<<endl
       <<"Number of waveforms acquired: "<<nw<<endl
-      <<"Dynamic range (V): #pm"<<dr<<endl
+      <<"Dynamic range (V): \u00B1"<<dr<<endl
       <<"Sampling rate (MS/s): "<<sr<<" -> Ticks (ns): "<<1000/stod(sr)<<endl<<endl;
 
   if(output=="output.root") {output="files_root/"+fs::path(file0).stem().string()+".root";
