@@ -2,8 +2,8 @@
 import h5py
 import numpy as np
 
-file_h5_input = "s1_200_10k_125_Sr90.h5"
-file_txt_output = "s1_200_10k_125_Sr90.txt"
+file_h5_input = "s1_200_10k_125_1_Sr90.h5"
+file_txt_output = "s1_200_10k_125_1_Sr90.txt"
 
 def estrai_dati_cartella_A(nome, oggetto, file_txt):
     if isinstance(oggetto, h5py.Dataset):
