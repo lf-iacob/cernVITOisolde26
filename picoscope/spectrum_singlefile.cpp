@@ -6,33 +6,37 @@ using namespace std;
 namespace fs = filesystem;
 const int L=129;  //wf time window
 
-void spectrum_root(string file0, double dyn_range=1., TString output="output.root"){
+void spectrum_root(string file0, TString output="output.root"){
   
   // ---------- (h5->)txt Filename ----------
-  /* e.g. s1_100_10k_125_Sr90.txt
+  /* e.g. files_txt/s1_100_10k_125_1_Sr90.txt
      s1: scintillator configuration
      100: trigger level (mV)
      10k: number of waveforms
      125: sampling rate (MS/s)
+     1: dynamic range (+-V)
      Sr90: radioactive source
   */
   string filename = fs::path(file0).filename().string();
   stringstream ss(filename);
-  string s, tl, nw, sr, rads;
+  string s, tl, nw, sr, dr, rads;
   getline(ss, s, '_');
   getline(ss, tl, '_');
   getline(ss, nw, '_');
   getline(ss, sr, '_');
+  getline(ss, dr, '_');
   getline(ss, rads, '.');
   cout<<endl<<"---------- FILE INFO ----------"<<endl
       <<"Type of radioactive source: "<<rads<<endl
       <<"Scintillators configuration: "<<s<<endl
       <<"Trigger level (mV): "<<tl<<endl
       <<"Number of waveforms acquired: "<<nw<<endl
+      <<"Dynamic range (V): #pm"<<dr<<endl
       <<"Sampling rate (MS/s): "<<sr<<" -> Ticks (ns): "<<1000/stod(sr)<<endl<<endl;
-  int colour=kPink-8;
 
-  if(output=="output.root") output=fs::path(file0).stem().string()+".root";
+  if(output=="output.root") {output="files_root/"+fs::path(file0).stem().string()+".root";
+    cout<<output<<endl;}
+
   TFile *froot = new TFile(output, "RECREATE");
 
   // ---------- Read txt file -> ROOT File ----------
@@ -49,16 +53,17 @@ void spectrum_root(string file0, double dyn_range=1., TString output="output.roo
   while(file.good()){
     b=0.; c=0.; amp=0;
     for(int i=0;i<L;i++){
-      file>>a[i]; 
-      if(i>=50 && i<=129) b+=double(a[i])/(129-50);
+      file>>a[i];
+      if(i<=10) b+=double(a[i])/(129-50);
       if((a[i]-b)>amp) amp = a[i]-b;
-      else if(i>=12 && i<=40) c+=(a[i]-b)*((2*1000.*dyn_range)/4096)*(1000/stod(sr))/50.; //Dynamic Range: *V, LSB: 12bit
+      else if(i>=12 && i<=40) c+=(a[i]-b)*((2*1000.*stod(dr))/4096)*(1000/stod(sr))/50.; //LSB: 12bit
     }
     dd->Fill();
   }
   file.close();
  
   int n = dd->GetEntries();
+  cout<<"-- Total entries: "<<n<<endl<<endl;
 
   // ---------- Charge Histogram ----------
   TCanvas *cc = new TCanvas;
