@@ -4,8 +4,8 @@ import h5py
 import numpy as np
 from tqdm import tqdm  # Optional library to display a progress bar
 
-input_filename = "s2grease_150_10min_125_Sr90.h5"
-output_filename = "s4_150_10min_125_Sr90.h5"
+input_filename = "s2grease_150_10min_125_1_Sr90.h5"
+output_filename = "s4_150_10min_125_1_Sr90.h5"
 group_name = "A"
 
 # List to store the names of discarded waveforms (useful for logging/verification)
