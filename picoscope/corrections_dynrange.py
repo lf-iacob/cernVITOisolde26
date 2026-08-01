@@ -49,7 +49,7 @@ print(f"Total waveforms analyzed: {total_waveforms}")
 print(f"Valid waveforms saved:    {valid_waveforms_count}")
 print(f"Discarded waveforms:      {len(discarded_waveforms)}")
 
-with open("discarded_waveforms.txt", "w") as f:
+with open("discarded_wf_150.txt", "w") as f:
     for wf in discarded_waveforms:
         f.write(f"{wf}\n")
 
