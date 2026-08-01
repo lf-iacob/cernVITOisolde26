@@ -11,7 +11,7 @@ void spectrum_comp(const vector<string> &files, TString output = "comparison/out
   // ---------- ROOT files Info ----------
   size_t nFiles = files.size();
   if (nFiles == 0) cerr << "ERROR -- No input files provided!" << endl;
-  vector<string> s(nFiles), tl(nFiles), nw(nFiles), sr(nFiles), rads(nFiles), filenames(nFiles);
+  vector<string> s(nFiles), tl(nFiles), nw(nFiles), sr(nFiles), dr(nFiles), rads(nFiles), filenames(nFiles);
   cout << endl << "---------- FILE INFO ----------" << endl;
   for (size_t i = 0; i < nFiles; ++i) {
     filenames[i] = fs::path(files[i]).filename().string();
@@ -20,13 +20,11 @@ void spectrum_comp(const vector<string> &files, TString output = "comparison/out
     getline(ss_name, tl[i], '_');
     getline(ss_name, nw[i], '_');
     getline(ss_name, sr[i], '_');
+    getline(ss_name, dr[i], '_');
     getline(ss_name, rads[i], '.');
   }
   for (size_t i = 0; i < nFiles; ++i) {
-    cout<<"File " << i + 1 << ":"<<endl
-	<<"  - Radioactive source: "<<rads[i]<<endl
-	<<"  - Scintillator config: "<<s[i]<<endl
-	<<"  - Trigger level (mV): "<<tl[i]<<endl;
+    cout<<"File " << i + 1 << ": "<<filenames[i]<<endl;
   }
   cout<<endl;
   vector<Color_t> colours={kPink-8, kViolet-3, kAzure+2, kTeal+3, kOrange-3, kSpring-5};
