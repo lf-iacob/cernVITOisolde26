@@ -27,7 +27,7 @@ void spectrum_comp(const vector<string> &files, TString output = "comparison/out
     cout<<"File " << i + 1 << ": "<<filenames[i]<<endl;
   }
   cout<<endl;
-  vector<Color_t> colours={kPink-8, kViolet-3, kAzure+2, kTeal+3, kOrange-3, kSpring-5};
+  vector<Color_t> colours={kPink-8, kViolet-3, kAzure+2, kTeal+3, kOrange-3, kSpring-5, kTeal+2, kBlack, kBlue+1 kYellow+1};
 
   /*
   // ---------- new ROOT file ----------
